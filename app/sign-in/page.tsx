@@ -12,7 +12,7 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  // Email & Password Login
+  // 🌟 Email & Password Login 🌟
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -27,11 +27,13 @@ export default function SignInPage() {
       setError(error.message);
       setLoading(false);
     } else {
+      // Login success hone par popup trigger karega
+      sessionStorage.setItem('showLoginToast', 'true');
       router.push("/"); 
     }
   };
 
-  // Google OAuth Login
+  // 🌟 Google OAuth Login 🌟
   const handleGoogleSignIn = async () => {
     setLoading(true);
     setError(null);
@@ -39,7 +41,7 @@ export default function SignInPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        // 🌟 YAHAN MAIN CHANGE HUA HAI: Ab ye callback page par jayega 🌟
+        // Google se wapas aane par seedha Auth Callback par jayega
         redirectTo: `${window.location.origin}/auth/callback`,
       }
     });
