@@ -1,11 +1,39 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase"; 
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<any>(null); // 🌟 BINA ISKE NAVBAR KO KUCH PATA NAHI CHALTA THA
   const pathname = usePathname();
+  const router = useRouter();
+
+  // 🌟 NAVBAR KA NAYA DIMAAG (Jo check karega user login hai ya nahi) 🌟
+  useEffect(() => {
+    // Pehle check karo abhi kaun login hai
+    const getUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+    };
+    getUser();
+
+    // Agar background mein login/logout ho toh usko turant pakdo
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  // 🌟 LOGOUT FUNCTION 🌟
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
+  };
 
   // Aapke saare premium links (Exact as per your design)
   const navLinks = [
@@ -45,14 +73,25 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* 🌟 Desktop Sign In Button (404 Fixed Here) 🌟 */}
+          {/* 🌟 Desktop Auth Buttons (Smart Logic Here) 🌟 */}
           <div className="hidden lg:flex items-center">
-            <Link
-              href="/sign-in"
-              className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-blue-500/30 cursor-pointer"
-            >
-              Sign In
-            </Link>
+            {user ? (
+              // Agar User Login Hai Toh Yeh Dikhega
+              <button
+                onClick={handleLogout}
+                className="bg-red-600/10 hover:bg-red-600/20 text-red-500 border border-red-500/20 px-6 py-2.5 rounded-full font-bold text-sm transition-all cursor-pointer"
+              >
+                Sign Out
+              </button>
+            ) : (
+              // Agar User Login NAHI Hai Toh Yeh Dikhega
+              <Link
+                href="/sign-in"
+                className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-lg hover:shadow-blue-500/30 cursor-pointer"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
 
           {/* 🌟 Mobile Hamburger Button 🌟 */}
@@ -93,15 +132,27 @@ export default function Navbar() {
               </Link>
             ))}
             
-            {/* Mobile Sign In Button */}
+            {/* Mobile Auth Button */}
             <div className="pt-4 mt-2 border-t border-slate-800">
-              <Link
-                href="/sign-in"
-                onClick={() => setIsOpen(false)}
-                className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white px-6 py-3.5 rounded-xl font-bold text-base transition-all shadow-lg"
-              >
-                Sign In
-              </Link>
+              {user ? (
+                 <button
+                 onClick={() => {
+                   handleLogout();
+                   setIsOpen(false);
+                 }}
+                 className="block w-full text-center bg-red-600/10 text-red-500 border border-red-500/20 px-6 py-3.5 rounded-xl font-bold text-base transition-all"
+               >
+                 Sign Out
+               </button>
+              ) : (
+                <Link
+                  href="/sign-in"
+                  onClick={() => setIsOpen(false)}
+                  className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white px-6 py-3.5 rounded-xl font-bold text-base transition-all shadow-lg"
+                >
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
         </div>
