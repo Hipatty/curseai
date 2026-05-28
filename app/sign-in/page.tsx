@@ -39,7 +39,8 @@ export default function SignInPage() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}`,
+        // 🌟 YAHAN MAIN CHANGE HUA HAI: Ab ye callback page par jayega 🌟
+        redirectTo: `${window.location.origin}/auth/callback`,
       }
     });
 
@@ -107,7 +108,6 @@ export default function SignInPage() {
             <div>
               <div className="flex justify-between items-center mb-2">
                 <label className="block text-sm font-medium text-slate-300">Password</label>
-                {/* 🌟 FORGOT PASSWORD LINK FIXED 🌟 */}
                 <Link href="/forgot-password" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">Forgot password?</Link>
               </div>
               <input 
@@ -131,7 +131,6 @@ export default function SignInPage() {
 
           <div className="mt-8 text-center text-sm text-slate-400">
             Don't have an account?{" "}
-            {/* 🌟 SIGN UP LINK FIXED 🌟 */}
             <Link href="/signup" className="text-white font-bold hover:text-blue-400 transition-colors">
               Sign up
             </Link>
