@@ -8,16 +8,12 @@ export default function Home() {
 
       <main className="flex-grow pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         
-        {/* 🌟 HERO SECTION 🌟 */}
+        {/* 🌟 HERO SECTION (Fixed Layout like Image 1) 🌟 */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 relative">
           
-          <div className="max-w-3xl">
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
-              Discover the Best <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                AI Tools
-              </span> <br />
-              for Your Next Project
+          <div className="max-w-4xl">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+              Discover the Best <span className="text-blue-500 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">AI Tools</span><br className="hidden md:block" /> for Your Next Project
             </h1>
             <p className="text-lg md:text-xl text-slate-400 max-w-2xl">
               Your premier directory for cutting-edge AI. Hand-picked tools to
@@ -25,7 +21,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Right Side: 🌟 AAPKA PURANA SIMPLE BUTTON 🌟 */}
+          {/* Right Side: Simple Explore Button */}
           <div className="mb-2 shrink-0 hidden md:block">
             <Link
               href="/explore"
@@ -36,7 +32,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mobile Button */}
+        {/* Mobile Explore Button */}
         <div className="mb-8 md:hidden">
             <Link
               href="/explore"
@@ -106,12 +102,12 @@ export default function Home() {
   );
 }
 
-// 🌟 TOOL CARD COMPONENT 🌟
+// 🌟 TOOL CARD COMPONENT (With slight Deep Blue/Slate Tint like Image 1) 🌟
 function ToolCard({ category, rating, title, description, pricing }: any) {
   return (
-    <div className="bg-[#0f0f0f] border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition-colors group cursor-pointer">
+    <div className="bg-[#0f172a]/80 border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/50 transition-all group cursor-pointer shadow-lg">
       <div className="flex justify-between items-center mb-4">
-        <span className="bg-blue-500/10 text-blue-400 text-xs font-bold px-3 py-1 rounded-full">{category}</span>
+        <span className="bg-blue-500/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full">{category}</span>
         <div className="flex items-center gap-4">
           <span className="text-yellow-500 text-sm font-bold flex items-center gap-1">
             ⭐ {rating}
@@ -123,8 +119,8 @@ function ToolCard({ category, rating, title, description, pricing }: any) {
       </div>
       <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{title}</h3>
       <p className="text-slate-400 text-sm mb-6 line-clamp-2">{description}</p>
-      <div className="flex justify-between items-center pt-4 border-t border-slate-800">
-        <span className="text-slate-500 text-sm font-medium">{pricing}</span>
+      <div className="flex justify-between items-center pt-4 border-t border-slate-800/50">
+        <span className="text-slate-400 text-sm font-medium">{pricing}</span>
         <Link href="#" className="text-blue-400 text-sm font-bold hover:text-blue-300 transition-colors flex items-center group-hover:underline">
           View Details
           <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
