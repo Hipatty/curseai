@@ -8,7 +8,7 @@ export default function Home() {
 
       <main className="flex-grow pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         
-        {/* 🌟 HERO SECTION (Fixed Layout like Image 1) 🌟 */}
+        {/* 🌟 HERO SECTION 🌟 */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 relative">
           
           <div className="max-w-4xl">
@@ -21,7 +21,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Right Side: Simple Explore Button */}
           <div className="mb-2 shrink-0 hidden md:block">
             <Link
               href="/explore"
@@ -32,7 +31,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mobile Explore Button */}
         <div className="mb-8 md:hidden">
             <Link
               href="/explore"
@@ -59,39 +57,69 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 🌟 FEATURED AI TOOLS 🌟 */}
+        {/* 🌟 FEATURED AI TOOLS (Fixed Layout & 8 Cards) 🌟 */}
         <div className="mb-10">
           <h2 className="text-3xl font-black text-white flex items-center gap-2 mb-8">
             Featured AI Tools <span className="text-yellow-400">✨</span>
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* YAHAN CHANGE HUA HAI: Desktop par 4 cards ki line (lg:grid-cols-4) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <ToolCard
               category="Voice AI"
               rating="4.9"
               title="ElevenLabs Studio"
-              description="Director-level voice cloning. Gain absolute control over emotional delivery, breathing, and pitch for hyper-realistic..."
+              description="Director-level voice cloning. Gain absolute control over emotional delivery, breathing, and pitch..."
               pricing="Freemium"
             />
             <ToolCard
               category="Voice AI"
               rating="4.9"
               title="Suno v4"
-              description="Generate radio-ready tracks with isolated vocal and instrument stems. The absolute standard for AI music..."
+              description="Generate radio-ready tracks with isolated vocal and instrument stems. The absolute standard..."
               pricing="Freemium"
             />
             <ToolCard
               category="Image Gen"
               rating="4.9"
               title="Flux.2"
-              description="The premier open-source image model. Delivers surgical precision for tasks like removing specific subjects..."
-              pricing="Freemium"
+              description="The premier open-source image model. Delivers surgical precision for tasks like removing..."
+              pricing="Free"
             />
             <ToolCard
               category="Image Gen"
               rating="4.9"
               title="Midjourney v7"
-              description="The absolute king of visual aesthetics. Perfect for complex character transformations, like turning a standard portrait..."
+              description="The absolute king of visual aesthetics. Perfect for complex character transformations..."
+              pricing="Paid"
+            />
+            {/* 4 Naye Cards Add Kiye Hain */}
+            <ToolCard
+              category="Video AI"
+              rating="4.9"
+              title="Luma Dream Machine"
+              description="The fastest high-fidelity video generator on the market. Produces incredibly smooth motion..."
+              pricing="Free"
+            />
+            <ToolCard
+              category="Video AI"
+              rating="4.9"
+              title="Runway Gen-4"
+              description="Revolutionary spatial video editor. Allows real-time 3D object manipulation and scene generation..."
+              pricing="Freemium"
+            />
+            <ToolCard
+              category="Video AI"
+              rating="4.9"
+              title="Sora Pro"
+              description="The pinnacle of video generation. Effortlessly create highly dynamic scenes with perfect physics..."
+              pricing="Paid"
+            />
+            <ToolCard
+              category="Coding AI"
+              rating="4.9"
+              title="Devin 2.0"
+              description="Autonomous AI engineer. Instantly scaffolds complete multi-page applications and fixes bugs..."
               pricing="Paid"
             />
           </div>
@@ -102,10 +130,10 @@ export default function Home() {
   );
 }
 
-// 🌟 TOOL CARD COMPONENT (With slight Deep Blue/Slate Tint like Image 1) 🌟
+// 🌟 TOOL CARD COMPONENT 🌟
 function ToolCard({ category, rating, title, description, pricing }: any) {
   return (
-    <div className="bg-[#0f172a]/80 border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/50 transition-all group cursor-pointer shadow-lg">
+    <div className="bg-[#0f172a]/80 border border-slate-700/50 rounded-2xl p-6 hover:border-blue-500/50 transition-all group cursor-pointer shadow-lg flex flex-col h-full">
       <div className="flex justify-between items-center mb-4">
         <span className="bg-blue-500/20 text-blue-400 text-xs font-bold px-3 py-1 rounded-full">{category}</span>
         <div className="flex items-center gap-4">
@@ -118,8 +146,8 @@ function ToolCard({ category, rating, title, description, pricing }: any) {
         </div>
       </div>
       <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{title}</h3>
-      <p className="text-slate-400 text-sm mb-6 line-clamp-2">{description}</p>
-      <div className="flex justify-between items-center pt-4 border-t border-slate-800/50">
+      <p className="text-slate-400 text-sm mb-6 line-clamp-3 flex-grow">{description}</p>
+      <div className="flex justify-between items-center pt-4 border-t border-slate-800/50 mt-auto">
         <span className="text-slate-400 text-sm font-medium">{pricing}</span>
         <Link href="#" className="text-blue-400 text-sm font-bold hover:text-blue-300 transition-colors flex items-center group-hover:underline">
           View Details
