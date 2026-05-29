@@ -1,161 +1,149 @@
-"use client";
-import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import ToolCard from "@/components/ToolCard";
-import { supabase } from "@/lib/supabase"; 
 import Link from "next/link";
-import { useRouter } from "next/navigation"; 
+import Navbar from "@/components/Navbar"; 
 
 export default function Home() {
-  const [tools, setTools] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  
-  const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    async function fetchTools() {
-      setLoading(true);
-      
-      const { data, error } = await supabase
-        .from('tools')
-        .select('*')
-        .eq('is_approved', true) 
-        .order('id', { ascending: false })
-        .limit(8); 
-
-      if (error) {
-        console.error("Error fetching tools:", error);
-      } else {
-        setTools(data || []);
-      }
-      setLoading(false);
-    }
-
-    fetchTools();
-  }, []); 
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim() !== "") {
-      router.push(`/explore?search=${encodeURIComponent(searchQuery)}`);
-    } else {
-      router.push('/explore');
-    }
-  };
-
   return (
-    <div className="bg-[#0a0a0a] text-white h-auto min-h-screen">
+    <div className="bg-[#0a0a0a] min-h-screen text-white flex flex-col overflow-x-hidden">
+      {/* Navbar yahan se aa raha hai */}
       <Navbar />
 
-      <main className="pt-32 pb-20 px-4">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-grow pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        
+        {/* 🌟 HERO SECTION 🌟 */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12 relative">
           
-          {/* HERO SECTION WITH SEARCH BAR */}
-          <div className="mb-16 text-center md:text-left flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="max-w-3xl w-full">
-              <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">
-                Discover the Best <span className="text-blue-500 drop-shadow-[0_0_10px_rgba(59,130,246,0.6)]">AI Tools</span> <br className="hidden md:block" /> for Your Next Project
-              </h1>
-              <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto md:mx-0">
-                Your premier directory for cutting-edge AI. Hand-picked tools to supercharge your creativity, coding, and productivity.
-              </p>
-
-              {/* SEARCH BAR */}
-              <form onSubmit={handleSearch} className="mt-8 relative max-w-xl mx-auto md:mx-0 group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-0 group-hover:opacity-30 group-focus-within:opacity-60 transition duration-500 blur"></div>
-                
-                <div className="relative flex items-center w-full bg-[#0a0a0a] rounded-full border border-slate-700 group-focus-within:border-slate-500 transition-all shadow-xl">
-                  <svg className="absolute left-4 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search AI tools (e.g., video, writing)..."
-                    className="w-full bg-transparent py-4 pl-12 pr-20 md:pr-32 text-white focus:outline-none placeholder-slate-500 text-sm md:text-base"
-                  />
-                  
-                  <button
-                    type="submit"
-                    className="absolute right-1.5 top-1.5 bottom-1.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-full px-4 md:px-8 flex items-center justify-center transition-all shadow-lg cursor-pointer"
-                  >
-                    <span className="hidden md:inline font-bold">Search</span>
-                    <svg className="w-5 h-5 md:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </button>
-                </div>
-              </form>
-
-            </div>
-            
-            <div className="hidden md:block flex-shrink-0">
-              <Link 
-                href="/explore" 
-                className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 border border-slate-700 hover:border-blue-500 hover:bg-slate-800 text-white font-bold rounded-full transition-all shadow-lg"
-              >
-                Explore Directory <span className="text-xl">→</span>
-              </Link>
-            </div>
+          {/* Left Side: Heading & Subtitle */}
+          <div className="max-w-3xl">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+              Discover the Best <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                AI Tools
+              </span> <br />
+              for Your Next Project
+            </h1>
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl">
+              Your premier directory for cutting-edge AI. Hand-picked tools to
+              supercharge your creativity, coding, and productivity.
+            </p>
           </div>
 
-          {/* 8 TOOLS GRID SECTION */}
-          <div>
-            <div className="flex justify-between items-end mb-6">
-              <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                Featured AI Tools <span className="text-yellow-500">✨</span>
-              </h2>
-              <Link href="/explore" className="text-blue-400 hover:text-blue-300 text-sm font-bold flex items-center gap-1 transition-colors md:hidden">
-                View All <span>→</span>
-              </Link>
-            </div>
-
-            {loading ? (
-              <div className="text-slate-400 py-10 text-center animate-pulse text-lg">
-                Loading latest tools...
-              </div>
-            ) : tools.length > 0 ? (
-              <>
-                {/* MAGIC FIX: grid-cols-2 for mobile */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-                  {tools.map((tool) => (
-                    <ToolCard 
-                      key={tool.id} 
-                      id={tool.id}
-                      name={tool.name}
-                      category={tool.category}
-                      pricing={tool.pricing}
-                      description={tool.description}
-                      url={tool.url}
-                    />
-                  ))}
-                </div>
-
-                <div className="mt-12 text-center">
-                  <Link 
-                    href="/explore" 
-                    className="inline-flex items-center gap-2 bg-slate-900 border border-slate-700 hover:border-blue-500 hover:bg-slate-800 text-white font-bold py-4 px-10 rounded-full transition-all cursor-pointer shadow-lg"
-                  >
-                    See All AI Tools
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7-7m7-7H3" />
-                    </svg>
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <div className="text-center py-20 bg-slate-900/30 rounded-2xl border border-slate-800 max-w-md mx-auto">
-                <div className="text-5xl mb-4">🔍</div>
-                <h3 className="text-xl font-bold text-white mb-2">No tools added yet</h3>
-              </div>
-            )}
+          {/* Right Side: 🌟 NAYA "EXPLORE DIRECTORY" BUTTON 🌟 */}
+          <div className="mb-2 shrink-0 hidden md:block">
+            <Link
+              href="/explore"
+              className="group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-white transition-all duration-300 bg-[#0f0f0f] border border-slate-700 rounded-full hover:border-blue-500 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] overflow-hidden"
+            >
+              <span className="relative z-10 flex items-center">
+                Explore Directory
+                <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </span>
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Link>
           </div>
-
         </div>
+
+        {/* Mobile ke liye Explore Button (Jo choti screen par search bar ke upar aayega) */}
+        <div className="mb-8 md:hidden">
+            <Link
+              href="/explore"
+              className="group w-full relative inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-white transition-all duration-300 bg-[#0f0f0f] border border-slate-700 rounded-full hover:border-blue-500 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] overflow-hidden"
+            >
+              <span className="relative z-10 flex items-center">
+                Explore Directory
+                <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </span>
+              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Link>
+        </div>
+
+        {/* 🌟 SEARCH BAR 🌟 */}
+        <div className="max-w-2xl mb-20 relative">
+          <div className="relative flex items-center bg-[#0f0f0f] border border-slate-800 rounded-full p-2 pl-6 shadow-lg hover:border-slate-700 transition-colors">
+            <svg className="w-6 h-6 text-slate-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search AI tools (e.g., video, writing)..."
+              className="flex-grow bg-transparent text-white placeholder-slate-500 focus:outline-none"
+            />
+            <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-2.5 px-6 rounded-full transition-all shadow-lg">
+              Search
+            </button>
+          </div>
+        </div>
+
+        {/* 🌟 FEATURED AI TOOLS 🌟 */}
+        <div className="mb-10">
+          <h2 className="text-3xl font-black text-white flex items-center gap-2 mb-8">
+            Featured AI Tools <span className="text-yellow-400">✨</span>
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ToolCard
+              category="Voice AI"
+              rating="4.9"
+              title="ElevenLabs Studio"
+              description="Director-level voice cloning. Gain absolute control over emotional delivery, breathing, and pitch for hyper-realistic..."
+              pricing="Freemium"
+            />
+            <ToolCard
+              category="Voice AI"
+              rating="4.9"
+              title="Suno v4"
+              description="Generate radio-ready tracks with isolated vocal and instrument stems. The absolute standard for AI music..."
+              pricing="Freemium"
+            />
+            <ToolCard
+              category="Image Gen"
+              rating="4.9"
+              title="Flux.2"
+              description="The premier open-source image model. Delivers surgical precision for tasks like removing specific subjects..."
+              pricing="Freemium"
+            />
+            <ToolCard
+              category="Image Gen"
+              rating="4.9"
+              title="Midjourney v7"
+              description="The absolute king of visual aesthetics. Perfect for complex character transformations, like turning a standard portrait..."
+              pricing="Paid"
+            />
+          </div>
+        </div>
+
       </main>
+    </div>
+  );
+}
+
+// 🌟 TOOL CARD COMPONENT 🌟
+function ToolCard({ category, rating, title, description, pricing }: any) {
+  return (
+    <div className="bg-[#0f0f0f] border border-slate-800 rounded-2xl p-6 hover:border-slate-700 transition-colors group cursor-pointer">
+      <div className="flex justify-between items-center mb-4">
+        <span className="bg-blue-500/10 text-blue-400 text-xs font-bold px-3 py-1 rounded-full">{category}</span>
+        <div className="flex items-center gap-4">
+          <span className="text-yellow-500 text-sm font-bold flex items-center gap-1">
+            ⭐ {rating}
+          </span>
+          <button className="text-slate-500 hover:text-red-500 transition-colors">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+          </button>
+        </div>
+      </div>
+      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">{title}</h3>
+      <p className="text-slate-400 text-sm mb-6 line-clamp-2">{description}</p>
+      <div className="flex justify-between items-center pt-4 border-t border-slate-800">
+        <span className="text-slate-500 text-sm font-medium">{pricing}</span>
+        <Link href="#" className="text-blue-400 text-sm font-bold hover:text-blue-300 transition-colors flex items-center group-hover:underline">
+          View Details
+          <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </Link>
+      </div>
     </div>
   );
 }
